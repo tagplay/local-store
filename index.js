@@ -3,7 +3,14 @@ var LocalStorage = typeof window !== "undefined" && window.localStorage
     , store
 
 if (LocalStorage) {
-    store = createLocalStore
+    try {
+        var x = '__testStorage__'
+        LocalStorage.setItem(x, x)
+        LocalStorage.removeItem(x)
+        store = createLocalStore
+    } catch (e) {
+        store = createMemoryStore
+    }
 } else {
     store = createMemoryStore
 }
